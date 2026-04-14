@@ -1,0 +1,51 @@
+Overview
+
+This project is a proof-of-concept (POC) to analyze friction in the mobile account opening journey across three critical failure layers:
+
+Access Failures → Infrastructure issues (latency, retries, server load)
+Maker-Checker Breakdowns → Control/process failures
+CBS Posting Failures → Core banking/system-level failures
+
+The objective is to identify key drivers of failure, quantify operational friction, and build an analytics framework relevant for BFSI roles in operations, product analytics, and consulting.
+
+Objectives
+Diagnose failure patterns across system layers
+Build hypothesis-driven analytical models
+Quantify impact of infrastructure and process inefficiencies
+Enable early warning signals for operational failures
+Demonstrate end-to-end analytics thinking (data → model → insight)
+
+Analytical Approach
+1. Hypothesis-Driven Modeling
+
+Instead of blind modeling, the project follows structured hypotheses:
+
+H1 (Access Layer): Failures driven by latency, retries, and peak load
+(Next: Workflow and CBS layers to be modeled similarly)
+2. Data Engineering
+Synthetic dataset (~99K rows) designed to mimic BFSI transaction logs
+Feature groups:
+Infrastructure: latency, retries, server region
+Behavioral: hour band, peak flags
+System signals: API latency bands, sync risk
+3. Modeling Strategy
+Logistic Regression (baseline interpretability)
+Random Forest (non-linear patterns)
+Gradient Boosting (ensemble learning)
+
+Key techniques applied:
+
+Stratified train/validation/test split
+Class imbalance awareness
+Threshold tuning (F1 / PR-AUC driven)
+Leakage control via feature isolation
+4. Signal Engineering (Critical Step)
+
+Initial models showed no predictive power (AUC ~0.5) → indicated weak signal.
+
+Resolved by:
+
+Log-odds (logit) based target generation
+Strong primary drivers (latency)
+Interaction effects (latency × peak hour)
+Controlled stochastic noise
