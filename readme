@@ -1,9 +1,5 @@
 # MECE-Based Model Validation for Mobile Banking Operations
 
->   An end-to-end Banking Operations Analytics case study demonstrating hypothesis-driven model validation, operational risk analysis, explainable machine learning, and an Early Warning System for digital account opening failures.  
-
----
-
 ## Project Overview
 
 Digital account opening is one of the most critical customer journeys in modern banking. Failures during onboarding can lead to customer abandonment, operational losses, increased manual intervention, and regulatory concerns.
