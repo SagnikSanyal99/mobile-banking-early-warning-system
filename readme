@@ -1,507 +1,503 @@
-# MECE-Based Model Validation for Mobile Banking Operations
+    MECE-Based  Model  Validation  for  Mobile  Banking  Operations
 
-> **End-to-End Banking Operations Analytics | Early Warning System | Explainable Machine Learning | Model Validation**
+>          End-to-End  Banking  Operations  Analytics  |  Early  Warning  System  |  Explainable  Machine  Learning  |  Model  Validation        
 
-![Python](https://img.shields.io/badge/Python-3.11-blue)
-![Scikit-Learn](https://img.shields.io/badge/scikit--learn-ML-orange)
-![Pandas](https://img.shields.io/badge/Pandas-Data%20Analysis-green)
-![Status](https://img.shields.io/badge/Project-Active-success)
-![License](https://img.shields.io/badge/License-MIT-lightgrey)
+
 
 ---
 
-# Overview
+    Overview
 
-Digital account opening is one of the most critical customer journeys in modern banking. Failures occurring across infrastructure, workflow controls, and core banking systems lead to customer abandonment, operational inefficiencies, regulatory concerns, and increased servicing costs.
+Digital  account  opening  is  one  of  the  most  critical  customer  journeys  in  modern  banking.  Failures  occurring  across  infrastructure,  workflow  controls,  and  core  banking  systems  lead  to  customer  abandonment,  operational  inefficiencies,  regulatory  concerns,  and  increased  servicing  costs.
 
-This project develops a **hypothesis-driven analytics framework** using a **MECE (Mutually Exclusive, Collectively Exhaustive)** decomposition of the account opening process to identify, quantify, and predict operational failures across multiple system layers.
+This  project  develops  a          hypothesis-driven  analytics  framework          using  a          MECE  (Mutually  Exclusive,  Collectively  Exhaustive)          decomposition  of  the  account  opening  process  to  identify,  quantify,  and  predict  operational  failures  across  multiple  system  layers.
 
-Rather than treating account opening failures as a single prediction problem, each operational layer is modeled independently to identify root causes and support targeted operational interventions.
+Rather  than  treating  account  opening  failures  as  a  single  prediction  problem,  each  operational  layer  is  modeled  independently  to  identify  root  causes  and  support  targeted  operational  interventions.
 
-The project concludes with a **production-oriented Early Warning System** capable of detecting high-risk transactions before failures occur.
+The  project  concludes  with  a          production-oriented  Early  Warning  System          capable  of  detecting  high-risk  transactions  before  failures  occur.
 
 ---
 
-# Business Problem
+    Business  Problem
 
-A mobile account opening request passes through multiple operational layers before successful completion.
+A  mobile  account  opening  request  passes  through  multiple  operational  layers  before  successful  completion.
 
 ```
 Customer
-      │
-      ▼
-Access Layer
-(Authentication, API, Network)
-      │
-      ▼
-Maker–Checker Workflow
-(Business Controls)
-      │
-      ▼
-CBS Posting
-(Core Banking System)
-      │
-      ▼
-Account Successfully Opened
+            │
+            ▼
+Access  Layer
+(Authentication,  API,  Network)
+            │
+            ▼
+Maker–Checker  Workflow
+(Business  Controls)
+            │
+            ▼
+CBS  Posting
+(Core  Banking  System)
+            │
+            ▼
+Account  Successfully  Opened
 ```
 
-Failures may occur at any layer.
+Failures  may  occur  at  any  layer.
 
-Traditional dashboards only report failures after they occur.
+Traditional  dashboards  only  report  failures  after  they  occur.
 
-This project focuses on **predicting failures before they happen**, allowing operations teams to intervene proactively.
-
----
-
-# Project Objectives
-
-- Diagnose operational failures across multiple banking system layers
-- Build hypothesis-driven predictive models instead of black-box classifiers
-- Identify statistically significant operational drivers
-- Prevent feature leakage during model development
-- Optimize prediction thresholds using business costs rather than accuracy
-- Develop an Early Warning System for real-time operational monitoring
-- Demonstrate an end-to-end analytics workflow applicable to banking, consulting, and operations analytics
+This  project  focuses  on          predicting  failures  before  they  happen        ,  allowing  operations  teams  to  intervene  proactively.
 
 ---
 
-# MECE Analytical Framework
+    Project  Objectives
 
-The mobile account opening journey is decomposed into four mutually exclusive operational layers.
+-  Diagnose  operational  failures  across  multiple  banking  system  layers
+-  Build  hypothesis-driven  predictive  models  instead  of  black-box  classifiers
+-  Identify  statistically  significant  operational  drivers
+-  Prevent  feature  leakage  during  model  development
+-  Optimize  prediction  thresholds  using  business  costs  rather  than  accuracy
+-  Develop  an  Early  Warning  System  for  real-time  operational  monitoring
+-  Demonstrate  an  end-to-end  analytics  workflow  applicable  to  banking,  consulting,  and  operations  analytics
 
-| Layer | Objective |
+---
+
+    MECE  Analytical  Framework
+
+The  mobile  account  opening  journey  is  decomposed  into  four  mutually  exclusive  operational  layers.
+
+|  Layer  |  Objective  |
 |---------|-----------|
-| Access Layer | Detect infrastructure-related failures |
-| Maker–Checker Layer | Identify workflow and approval breakdowns |
-| CBS Layer | Detect failures during core banking synchronization |
-| End-to-End Layer | Measure overall operational friction |
+|  Access  Layer  |  Detect  infrastructure-related  failures  |
+|  Maker–Checker  Layer  |  Identify  workflow  and  approval  breakdowns  |
+|  CBS  Layer  |  Detect  failures  during  core  banking  synchronization  |
+|  End-to-End  Layer  |  Measure  overall  operational  friction  |
 
-Each layer is modeled independently before integrating insights into an overall operational risk framework.
-
----
-
-# Hypothesis Framework
-
-The project follows a structured hypothesis-driven analytical approach.
-
-## Hypothesis 1 — Access Layer
-
-**Null Hypothesis (H₀)**
-
-Infrastructure characteristics such as API latency, retry attempts, authentication failures, middleware timeouts, and server conditions do **not** significantly influence access failures.
-
-**Alternative Hypothesis (H₁)**
-
-Infrastructure characteristics significantly increase the probability of access failures.
+Each  layer  is  modeled  independently  before  integrating  insights  into  an  overall  operational  risk  framework.
 
 ---
 
-Additional hypotheses are developed for:
+    Hypothesis  Framework
 
-- Maker–Checker breakdowns
-- CBS posting failures
-- End-to-End operational friction
+The  project  follows  a  structured  hypothesis-driven  analytical  approach.
+
+      Hypothesis  1  —  Access  Layer
+
+        Null  Hypothesis  (H₀)        
+
+Infrastructure  characteristics  such  as  API  latency,  retry  attempts,  authentication  failures,  middleware  timeouts,  and  server  conditions  do          not          significantly  influence  access  failures.
+
+        Alternative  Hypothesis  (H₁)        
+
+Infrastructure  characteristics  significantly  increase  the  probability  of  access  failures.
 
 ---
 
-# Dataset
+Additional  hypotheses  are  developed  for:
 
-Since real banking transaction logs cannot be publicly shared, a realistic synthetic dataset was generated to simulate operational events.
+-  Maker–Checker  breakdowns
+-  CBS  posting  failures
+-  End-to-End  operational  friction
 
-## Dataset Characteristics
+---
 
-| Property | Value |
+    Dataset
+
+Since  real  banking  transaction  logs  cannot  be  publicly  shared,  a  realistic  synthetic  dataset  was  generated  to  simulate  operational  events.
+
+      Dataset  Characteristics
+
+|  Property  |  Value  |
 |----------|---------|
-| Records | ~99,000 |
-| Failure Layers | 4 |
-| Branches | 499 |
-| Channels | Mobile, Tablet |
-| Infrastructure Features | API latency, retry count, server region |
-| Workflow Features | TAT, field validation, caching |
-| CBS Features | Synchronization status, reconciliation |
-| Operational Features | Branch, channel, friction score |
+|  Records  |  ~99,000  |
+|  Failure  Layers  |  4  |
+|  Branches  |  499  |
+|  Channels  |  Mobile,  Tablet  |
+|  Infrastructure  Features  |  API  latency,  retry  count,  server  region  |
+|  Workflow  Features  |  TAT,  field  validation,  caching  |
+|  CBS  Features  |  Synchronization  status,  reconciliation  |
+|  Operational  Features  |  Branch,  channel,  friction  score  |
 
-The synthetic data was engineered to preserve realistic banking operational behavior while protecting confidential information.
-
----
-
-# Feature Engineering
-
-Feature engineering was designed to simulate operational signals commonly observed in digital banking platforms.
-
-Examples include:
-
-### Infrastructure
-
-- API latency
-- Retry count
-- Server region
-- Peak hour
-- Hour band
-
-### Authentication
-
-- OTP failure
-- Session timeout
-- Token mismatch
-
-### Middleware
-
-- Middleware timeout
-- External dependency failures
-- Application crashes
-- Client network drops
-
-### Workflow
-
-- Turnaround time (TAT)
-- Control risk score
-- Field validation errors
-- Peak submission flag
-
-### CBS
-
-- Synchronization status
-- Reconciliation flag
-- Data loss flag
-- API call status
+The  synthetic  data  was  engineered  to  preserve  realistic  banking  operational  behavior  while  protecting  confidential  information.
 
 ---
 
-# Machine Learning Workflow
+    Feature  Engineering
 
-The project follows a structured modeling pipeline.
+Feature  engineering  was  designed  to  simulate  operational  signals  commonly  observed  in  digital  banking  platforms.
+
+Examples  include:
+
+        Infrastructure
+
+-  API  latency
+-  Retry  count
+-  Server  region
+-  Peak  hour
+-  Hour  band
+
+        Authentication
+
+-  OTP  failure
+-  Session  timeout
+-  Token  mismatch
+
+        Middleware
+
+-  Middleware  timeout
+-  External  dependency  failures
+-  Application  crashes
+-  Client  network  drops
+
+        Workflow
+
+-  Turnaround  time  (TAT)
+-  Control  risk  score
+-  Field  validation  errors
+-  Peak  submission  flag
+
+        CBS
+
+-  Synchronization  status
+-  Reconciliation  flag
+-  Data  loss  flag
+-  API  call  status
+
+---
+
+    Machine  Learning  Workflow
+
+The  project  follows  a  structured  modeling  pipeline.
 
 ```
-Business Problem
+Business  Problem
 
-        │
+                │
 
-        ▼
+                ▼
 
-Hypothesis Formulation
+Hypothesis  Formulation
 
-        │
+                │
 
-        ▼
+                ▼
 
-Synthetic Data Engineering
+Synthetic  Data  Engineering
 
-        │
+                │
 
-        ▼
+                ▼
 
-Exploratory Data Analysis
+Exploratory  Data  Analysis
 
-        │
+                │
 
-        ▼
+                ▼
 
-Feature Engineering
+Feature  Engineering
 
-        │
+                │
 
-        ▼
+                ▼
 
-Leakage Assessment
+Leakage  Assessment
 
-        │
+                │
 
-        ▼
+                ▼
 
-Model Development
+Model  Development
 
-        │
+                │
 
-        ▼
+                ▼
 
-Threshold Optimization
+Threshold  Optimization
 
-        │
+                │
 
-        ▼
+                ▼
 
-Permutation Importance
+Permutation  Importance
 
-        │
+                │
 
-        ▼
+                ▼
 
-Cost-Based Optimization
+Cost-Based  Optimization
 
-        │
+                │
 
-        ▼
+                ▼
 
-Segment Analysis
+Segment  Analysis
 
-        │
+                │
 
-        ▼
+                ▼
 
-Early Warning System
+Early  Warning  System
 ```
 
 ---
 
-# Modeling Strategy
+    Modeling  Strategy
 
-Models evaluated
+Models  evaluated
 
-- Logistic Regression
-- Random Forest
-- Gradient Boosting
+-  Logistic  Regression
+-  Random  Forest
+-  Gradient  Boosting
 
-Evaluation strategy
+Evaluation  strategy
 
-- Stratified Train/Validation/Test Split
-- Class imbalance awareness
-- Threshold optimization
-- Out-of-sample evaluation
-- PR-AUC optimization
-- Cost-sensitive evaluation
-- Permutation Feature Importance
+-  Stratified  Train/Validation/Test  Split
+-  Class  imbalance  awareness
+-  Threshold  optimization
+-  Out-of-sample  evaluation
+-  PR-AUC  optimization
+-  Cost-sensitive  evaluation
+-  Permutation  Feature  Importance
 
 ---
 
-# Key Results
+    Key  Results
 
-After redesigning the synthetic data generation process to include realistic infrastructure failure signals, predictive performance improved substantially.
+After  redesigning  the  synthetic  data  generation  process  to  include  realistic  infrastructure  failure  signals,  predictive  performance  improved  substantially.
 
-| Metric | Result |
+|  Metric  |  Result  |
 |---------|---------|
-| Test AUC | ~0.82 |
-| PR-AUC | ~0.67 |
-| F1 Score | ~0.60 |
-| Accuracy | ~85% |
+|  Test  AUC  |  ~0.82  |
+|  PR-AUC  |  ~0.67  |
+|  F1  Score  |  ~0.60  |
+|  Accuracy  |  ~85%  |
 
-The final model demonstrated meaningful predictive capability for operational access failures.
+The  final  model  demonstrated  meaningful  predictive  capability  for  operational  access  failures.
 
 ---
 
-# Most Important Predictors
+    Most  Important  Predictors
 
-Permutation Feature Importance identified the following operational drivers.
+Permutation  Feature  Importance  identified  the  following  operational  drivers.
 
-| Rank | Feature |
+|  Rank  |  Feature  |
 |------|-----------|
-| 1 | API Latency |
-| 2 | Middleware Timeout |
-| 3 | Session Timeout |
-| 4 | OTP Failure |
-| 5 | External Dependency Failure |
-| 6 | Token Mismatch |
-| 7 | Application Crash |
-| 8 | Network Drop |
+|  1  |  API  Latency  |
+|  2  |  Middleware  Timeout  |
+|  3  |  Session  Timeout  |
+|  4  |  OTP  Failure  |
+|  5  |  External  Dependency  Failure  |
+|  6  |  Token  Mismatch  |
+|  7  |  Application  Crash  |
+|  8  |  Network  Drop  |
 
-Operational timing variables such as retry count and peak hour showed comparatively lower predictive value after controlling for infrastructure failures.
-
----
-
-# Threshold Optimization
-
-Rather than maximizing overall accuracy, prediction thresholds were optimized to minimize missed operational failures.
-
-The project evaluates
-
-- Precision
-- Recall
-- F1 Score
-- PR-AUC
-- Operational Cost
-
-This reflects real banking operations where **missing a critical failure is significantly more expensive than generating a false alert**.
+Operational  timing  variables  such  as  retry  count  and  peak  hour  showed  comparatively  lower  predictive  value  after  controlling  for  infrastructure  failures.
 
 ---
 
-# Cost-Sensitive Modeling
+    Threshold  Optimization
 
-Business costs were incorporated into threshold selection.
+Rather  than  maximizing  overall  accuracy,  prediction  thresholds  were  optimized  to  minimize  missed  operational  failures.
+
+The  project  evaluates
+
+-  Precision
+-  Recall
+-  F1  Score
+-  PR-AUC
+-  Operational  Cost
+
+This  reflects  real  banking  operations  where          missing  a  critical  failure  is  significantly  more  expensive  than  generating  a  false  alert        .
+
+---
+
+    Cost-Sensitive  Modeling
+
+Business  costs  were  incorporated  into  threshold  selection.
 
 ```
-False Negative  >>  False Positive
+False  Negative    >>    False  Positive
 ```
 
 Objective:
 
-Reduce missed operational failures while maintaining acceptable false alarm rates.
+Reduce  missed  operational  failures  while  maintaining  acceptable  false  alarm  rates.
 
 ---
 
-# Segment Analysis
+    Segment  Analysis
 
-Operational performance was evaluated across
+Operational  performance  was  evaluated  across
 
-- Customer channels
-- Branch clusters
-- Infrastructure conditions
+-  Customer  channels
+-  Branch  clusters
+-  Infrastructure  conditions
 
-This enables operations teams to identify high-risk operational segments requiring targeted intervention.
+This  enables  operations  teams  to  identify  high-risk  operational  segments  requiring  targeted  intervention.
 
 ---
 
-# Early Warning System
+    Early  Warning  System
 
-The final stage of the project demonstrates how predictive analytics can support real-time banking operations.
+The  final  stage  of  the  project  demonstrates  how  predictive  analytics  can  support  real-time  banking  operations.
 
-Operational workflow
+Operational  workflow
 
 ```
-Incoming Transaction
+Incoming  Transaction
 
-        │
+                │
 
-        ▼
+                ▼
 
-Feature Extraction
+Feature  Extraction
 
-        │
+                │
 
-        ▼
+                ▼
 
-Predictive Model
+Predictive  Model
 
-        │
+                │
 
-        ▼
+                ▼
 
-Risk Score
+Risk  Score
 
-        │
+                │
 
-        ▼
+                ▼
 
-Threshold Check
+Threshold  Check
 
-        │
+                │
 
-        ▼
+                ▼
 
-Alert Generation
+Alert  Generation
 
-        │
+                │
 
-        ▼
+                ▼
 
-Operations Dashboard
+Operations  Dashboard
 
-        │
+                │
 
-        ▼
+                ▼
 
-Manual Investigation
+Manual  Investigation
 ```
 
-The framework illustrates how predictive models can transition from experimentation into production-oriented monitoring systems.
+The  framework  illustrates  how  predictive  models  can  transition  from  experimentation  into  production-oriented  monitoring  systems.
 
 ---
 
-# Technologies Used
+    Technologies  Used
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- Matplotlib
-- Seaborn
-- SciPy
-
----
-
-# Skills Demonstrated
-
-- Banking Operations Analytics
-- Model Validation
-- Business Analytics
-- Machine Learning
-- Statistical Modeling
-- Feature Engineering
-- Hypothesis Testing
-- Cost-Sensitive Learning
-- Threshold Optimization
-- Permutation Importance
-- Explainable AI
-- Operational Risk Analytics
-- Data Visualization
-- Root Cause Analysis
+-  Python
+-  Pandas
+-  NumPy
+-  Scikit-learn
+-  Matplotlib
+-  Seaborn
+-  SciPy
 
 ---
 
-# Repository Structure
+    Skills  Demonstrated
+
+-  Banking  Operations  Analytics
+-  Model  Validation
+-  Business  Analytics
+-  Machine  Learning
+-  Statistical  Modeling
+-  Feature  Engineering
+-  Hypothesis  Testing
+-  Cost-Sensitive  Learning
+-  Threshold  Optimization
+-  Permutation  Importance
+-  Explainable  AI
+-  Operational  Risk  Analytics
+-  Data  Visualization
+-  Root  Cause  Analysis
+
+---
+
+    Repository  Structure
 
 ```
 MECE-based-model-validation-for-mobile-banking-operations/
 
 │
-├── notebooks/
-│   ├── 01_Data_Generation.ipynb
-│   ├── 02_Access_Model.ipynb
-│   ├── 03_Maker_Checker_Model.ipynb
-│   ├── 04_CBS_Model.ipynb
-│   └── 05_Early_Warning_System.ipynb
+├──  notebooks/
+│      ├──  01_Data_Generation.ipynb
+│      ├──  02_Access_Model.ipynb
+│      ├──  03_Maker_Checker_Model.ipynb
+│      ├──  04_CBS_Model.ipynb
+│      └──  05_Early_Warning_System.ipynb
 │
-├── data/
-│   └── synthetic_dataset.csv
+├──  data/
+│      └──  synthetic_dataset.csv
 │
-├── images/
+├──  images/
 │
-├── reports/
+├──  reports/
 │
-├── README.md
+├──  README.md
 │
-└── requirements.txt
+└──  requirements.txt
 ```
 
 ---
 
-# Future Enhancements
+    Future  Enhancements
 
-Planned improvements include
+Planned  improvements  include
 
-- SHAP Explainability
-- Population Stability Index (PSI)
-- Concept Drift Detection
-- Feature Stability Analysis
-- Champion–Challenger Models
-- Human-in-the-Loop Validation
-- Production Monitoring Dashboard
-- Streaming Inference Pipeline
-
----
-
-# Disclaimer
-
-This project is an educational proof-of-concept built using synthetic banking data.
-
-It does not use confidential customer information, proprietary banking systems, or production transaction logs.
-
-The analytical workflow, modeling strategy, and validation framework are intended to demonstrate industry-relevant approaches to banking operations analytics and model validation.
+-  SHAP  Explainability
+-  Population  Stability  Index  (PSI)
+-  Concept  Drift  Detection
+-  Feature  Stability  Analysis
+-  Champion–Challenger  Models
+-  Human-in-the-Loop  Validation
+-  Production  Monitoring  Dashboard
+-  Streaming  Inference  Pipeline
 
 ---
 
-# Author
+    Disclaimer
 
-**Sagnik Sanyal**
+This  project  is  an  educational  proof-of-concept  built  using  synthetic  banking  data.
 
-MBA (Business Analytics)
+It  does  not  use  confidential  customer  information,  proprietary  banking  systems,  or  production  transaction  logs.
 
-Interested in
-
-- Banking Analytics
-- Operations Analytics
-- Model Validation
-- Risk Analytics
-- Business Intelligence
-- Machine Learning for BFSI
+The  analytical  workflow,  modeling  strategy,  and  validation  framework  are  intended  to  demonstrate  industry-relevant  approaches  to  banking  operations  analytics  and  model  validation.
 
 ---
 
-## If you found this project useful
+    Author
 
-Star this repository
+        Sagnik  Sanyal        
 
-Fork it
+MBA  (Business  Analytics)
 
-Share your feedback
+Interested  in
 
-Contributions and discussions are welcome.
+-  Banking  Analytics
+-  Operations  Analytics
+-  Model  Validation
+-  Risk  Analytics
+-  Business  Intelligence
+-  Machine  Learning  for  BFSI
+
+---
+
+      If  you  found  this  project  useful
+
+Star  this  repository
+
+Fork  it
+
+Share  your  feedback
+
+Contributions  and  discussions  are  welcome.
