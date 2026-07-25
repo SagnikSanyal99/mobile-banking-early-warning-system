@@ -1,4 +1,9 @@
 # MECE-Based Model Validation for Mobile Banking Operations
+![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)
+![React](https://img.shields.io/badge/React-18+-blue?logo=react)
+![FastAPI](https://img.shields.io/badge/FastAPI-Production-green?logo=fastapi)
+![Google Gemini](https://img.shields.io/badge/Google-Gemini-yellow?logo=google)
+
 
 ## Project Overview
 
