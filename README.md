@@ -1,4 +1,6 @@
-# MECE-Based Model Validation for Mobile Banking Operations
+# Mobile Banking Early Warning System
+### Predicting Digital Account Opening Failures using MECE-Based Model Validation
+
 ![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
 ![Pandas](https://img.shields.io/badge/Pandas-Data_Analysis-150458?logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-Numerical_Computing-013243?logo=numpy&logoColor=white)
