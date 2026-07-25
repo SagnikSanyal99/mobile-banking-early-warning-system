@@ -1,9 +1,19 @@
 # MECE-Based Model Validation for Mobile Banking Operations
-![Python](https://img.shields.io/badge/Python-3.11%2B-blue?logo=python)
-![React](https://img.shields.io/badge/React-18+-blue?logo=react)
-![FastAPI](https://img.shields.io/badge/FastAPI-Production-green?logo=fastapi)
-![Google Gemini](https://img.shields.io/badge/Google-Gemini-yellow?logo=google)
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-Data_Analysis-150458?logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-Numerical_Computing-013243?logo=numpy&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/scikit--learn-Machine_Learning-F7931E?logo=scikitlearn&logoColor=white)
+![XGBoost](https://img.shields.io/badge/XGBoost-Gradient_Boosting-EC6B23)
+![SHAP](https://img.shields.io/badge/SHAP-Explainable_AI-FF6F00)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-Visualization-11557C)
+![Seaborn](https://img.shields.io/badge/Seaborn-Statistical_Plots-4C72B0)
 
+![Status](https://img.shields.io/badge/Status-Completed-success)
+![License](https://img.shields.io/badge/License-MIT-blue)
+![Notebook](https://img.shields.io/badge/Jupyter-Notebook-F37626?logo=jupyter&logoColor=white)
+![Model](https://img.shields.io/badge/Model-Early_Warning_System-green)
+![Domain](https://img.shields.io/badge/Domain-Banking_Analytics-darkgreen)
+![ML](https://img.shields.io/badge/Machine_Learning-Classification-orange)
 
 ## Project Overview
 
